@@ -1,0 +1,28 @@
+{
+  "name": "refund_api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KevinLopes23/refund_api.git"
+  },
+  "author": "Kevin Lopes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KevinLopes23/refund_api/issues"
+  },
+  "homepage": "https://github.com/KevinLopes23/refund_api#readme",
+  "description": "API de solicitação de reembolso ",
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}
