@@ -2,6 +2,8 @@ import { prisma } from "@/database/prisma";
 import { Request, Response } from "express";
 import { z } from "zod";
 import bcrypt from "bcrypt";
+import { authConfig } from "@/configs/auth";
+import { sign } from "jsonwebtoken";
 
 class SessionsController {
   async create(request: Request, response: Response) {
@@ -28,7 +30,22 @@ class SessionsController {
       throw new Error("E-mail ou senha inválidos");
     }
 
-    response.json({ email, password });
+    const { secret, expiresIn } = authConfig.jwt;
+
+    const token = sign(
+      {
+        role: user.role,
+      },
+      secret,
+      {
+        subject: user.id,
+        expiresIn,
+      },
+    );
+
+    const { password: _, ...userWithoutPassword } = user;
+
+    response.json({ token, user: userWithoutPassword });
   }
 }
 
