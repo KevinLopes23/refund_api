@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { z } from "zod";
+import { prisma } from "@/database/prisma";
+import { AppError } from "@/utils/AppError";
 
 const CategoriesEnum = z.enum([
   "food",
@@ -21,8 +23,22 @@ class RefundsController {
       filename: z.string().min(20),
     });
 
-    const { name } = bodySchema.parse(request.body);
-    response.json({ message: "Ok" });
+    const { name, category, amount, filename } = bodySchema.parse(request.body);
+
+    if (!request.user?.id) {
+      throw new AppError("Usuário não autenticado", 401);
+    }
+
+    const refund = await prisma.refunds.create({
+      data: {
+        name,
+        category,
+        amount,
+        filename,
+        userId: request.user.id,
+      },
+    });
+    response.status(201).json(refund);
   }
 }
 
