@@ -17,4 +17,10 @@ refundsRoutes.get(
   refundsController.index,
 );
 
+refundsRoutes.get(
+  "/:id",
+  verifyUserAuthorization(["manager", "employee"]),
+  refundsController.show,
+);
+
 export { refundsRoutes };
