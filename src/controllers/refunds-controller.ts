@@ -56,6 +56,9 @@ class RefundsController {
           },
         },
       },
+      orderBy: {
+        createdAt: "asc",
+      },
       include: {
         user: true,
       },
