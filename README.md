@@ -1,125 +1,81 @@
-# 💸 Refund API - Sistema de Solicitacões de Reembolso
+<div align="center">
 
-[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
-[![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
-[![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white)](https://www.prisma.io/)
-[![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
-[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg?style=for-the-badge)](https://opensource.org/licenses/ISC)
+# 💸 Refund API
 
-> API RESTful robusta desenvolvida em **Node.js** com **TypeScript** e **Prisma ORM** para a gestão e solicitação de reembolsos de despesas corporativas com suporte a múltiplos perfis de acesso (**RBAC**) e upload de comprovantes.
+**API REST para solicitações de reembolso de despesas corporativas, com upload de comprovantes e acesso por perfil.**
 
----
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)
+![Zod](https://img.shields.io/badge/Zod-3E67B1?style=for-the-badge&logo=zod&logoColor=white)
 
-## 📌 Índice
-
-- [Sobre o Projeto](#-sobre-o-projeto)
-- [✨ Funcionalidades](#-funcionalidades)
-- [🛠️ Tecnologias Utilizadas](#️-tecnologias-utilizadas)
-- [🧱 Estrutura da Aplicação](#-estrutura-da-aplicação)
-- [🗄️ Modelo de Dados](#️-modelo-de-dados)
-- [🚨 Controle de Acesso (RBAC)](#-controle-de-acesso-rbac)
-- [🔌 Endpoints da API](#-endpoints-da-api)
-- [🚀 Como Executar o Projeto](#-como-executar-o-projeto)
-- [📄 Licença](#-licença)
+</div>
 
 ---
 
-## 📖 Sobre o Projeto
+## 💡 Sobre
 
-O **Refund API** é uma solução backend desenvolvida para simplificar o fluxo de reembolso de despesas operacionais em empresas. A aplicação permite que funcionários enviem comprovantes e registrem solicitações de reembolso categorizadas (alimentação, hospedagem, transporte, serviços, etc.), enquanto gestores têm acesso para visualizar e auditar as solicitações realizadas.
-
-O projeto foi construído seguindo princípios de **Clean Code**, **Arquitetura em Camadas** (Controllers, Services/Middlewares, Routes, Configs) e forte tipagem com **TypeScript**.
-
----
+O Refund API simplifica o fluxo de reembolso em empresas: o funcionário envia a foto do comprovante e registra a despesa em uma categoria; o gestor lista, pesquisa e audita todas as solicitações. Projeto prático desenvolvido durante a formação Node.js da Rocketseat.
 
 ## ✨ Funcionalidades
 
-- 🔒 **Autenticação & Segurança**:
-  - Cadastro de usuários com criptografia de senha (`bcrypt`).
-  - Autenticação via JSON Web Tokens (`JWT`).
-  - Proteção de rotas privadas via middleware de autenticação.
+- 🔐 Cadastro com senha criptografada (bcrypt) e login com JWT
+- 🛡️ Controle de acesso por perfil (`employee` / `manager`)
+- 📎 Upload de comprovantes (JPEG/PNG) via Multer, servidos estaticamente em `/uploads`
+- 🧾 Solicitações de reembolso por categoria: `food`, `accommodation`, `transport`, `services`, `others`
+- 🔎 Listagem paginada com busca por nome (`?name=&page=&perPage=`)
+- ✅ Validação com Zod e tratamento global de erros (`AppError`)
 
-- 🛡️ **Controle de Acesso Baseado em Funções (RBAC)**:
-  - **Funcionário (`employee`)**: Envia comprovantes físicos/digitais e cria solicitações de reembolso.
-  - **Gestor (`manager`)**: Visualiza todas as solicitações corporativas registradas e acessa detalhes individuais.
+## 🛠️ Tecnologias
 
-- 🧾 **Gestão de Reembolsos**:
-  - Cadastro de despesas associadas a categorias predefinidas (`food`, `accommodation`, `transport`, `services`, `others`).
-  - Armazenamento e vinculação de comprovantes anexados.
-  - Consulta de detalhes da solicitação.
+Node.js · TypeScript · Express · Prisma ORM · SQLite · JWT · bcrypt · Multer · Zod · tsx
 
-- 📁 **Upload de Arquivos**:
-  - Manipulação e upload seguro de comprovantes via `Multer`.
-  - Servidor estático para acesso aos comprovantes gravados.
+## 🔄 Fluxo
 
-- ✅ **Validação & Tratamento de Erros**:
-  - Validação rigorosa dos dados de entrada utilizando **Zod**.
-  - Handler global de erros customizados (`AppError`) desacoplado da camada de transporte.
-
----
-
-## 🛠️ Tecnologias Utilizadas
-
-- **Linguagem**: [TypeScript](https://www.typescriptlang.org/)
-- **Runtime**: [Node.js](https://nodejs.org/)
-- **Framework Web**: [Express.js](https://expressjs.com/)
-- **ORM & Banco de Dados**: [Prisma ORM](https://www.prisma.io/) com [SQLite](https://www.sqlite.org/) (ou PostgreSQL)
-- **Validação de Schemas**: [Zod](https://zod.dev/)
-- **Autenticação**: [JSON Web Token (JWT)](https://jwt.io/) & [bcrypt](https://github.com/kelektiv/node.bcrypt.js)
-- **Upload de Arquivos**: [Multer](https://github.com/expressjs/multer)
-- **Execução em Dev**: [tsx](https://github.com/privatenumber/tsx) (TypeScript Execute)
-
----
-
-## 🧱 Estrutura da Aplicação
-
-```text
-refund_api/
-├── prisma/
-│   ├── dev.db              # Banco de dados SQLite local
-│   ├── migrations/         # Migrações do banco de dados
-│   └── schema.prisma       # Definição das tabelas e enums
-├── src/
-│   ├── configs/            # Configurações de JWT, Upload, etc.
-│   │   ├── auth.ts
-│   │   └── upload.ts
-│   ├── controllers/        # Controladores das requisições HTTP
-│   ├── database/           # Instância e cliente do Prisma
-│   ├── middlewares/        # Middlewares de Auth, RBAC e Tratamento de Erros
-│   ├── providers/          # Provedores de serviços auxiliares
-│   ├── routes/             # Definição das rotas e agrupamento
-│   ├── types/              # Definições de tipos TypeScript
-│   ├── utils/              # Classes utilitárias (ex: AppError)
-│   ├── app.ts              # Setup do servidor Express
-│   └── server.ts           # Inicialização e escuta da porta
-├── uploads/                # Diretório físico para arquivos salvos
-├── package.json
-└── tsconfig.json
+```mermaid
+sequenceDiagram
+    actor F as Funcionário
+    actor G as Gestor
+    participant API
+    F->>API: POST /sessions (JWT)
+    F->>API: POST /uploads (comprovante)
+    API-->>F: filename
+    F->>API: POST /refunds (nome, valor, categoria, filename)
+    G->>API: GET /refunds?name=&page=
+    G->>API: GET /refunds/:id
+    G->>API: GET /uploads/:filename
 ```
 
----
+## 📌 Endpoints
 
-## 🗄️ Modelo de Dados
+Rotas privadas exigem `Authorization: Bearer <token>`.
 
-### Enums
+| Método | Rota | Acesso | Descrição |
+|---|---|---|---|
+| `POST` | `/users` | Público | Cadastra um usuário |
+| `POST` | `/sessions` | Público | Autentica e retorna o token JWT |
+| `POST` | `/uploads` | `employee` | Envia o comprovante (`multipart/form-data`, campo `file`) |
+| `POST` | `/refunds` | `employee` | Cria uma solicitação de reembolso |
+| `GET` | `/refunds` | `manager` | Lista solicitações com busca e paginação |
+| `GET` | `/refunds/:id` | `employee`, `manager` | Detalha uma solicitação |
+| `GET` | `/uploads/:filename` | Público | Arquivo do comprovante (estático) |
 
-- **UserRole**: `employee` | `manager`
-- **Category**: `food` | `accommodation` | `transport` | `services` | `others`
+## 🗄️ Banco de dados
 
-### Entidades
+SQLite (`prisma/dev.db`) com Prisma:
 
 ```mermaid
 erDiagram
-    USER ||--o{ REFUNDS : "possui"
-    USER {
+    USERS ||--o{ REFUNDS : "solicita"
+    USERS {
         string id PK
         string name
         string email UK
         string password
         UserRole role
-        datetime createdAt
-        datetime updatedAt
     }
     REFUNDS {
         string id PK
@@ -127,86 +83,29 @@ erDiagram
         float amount
         Category category
         string filename
-        string userId FK
-        datetime createdAt
-        datetime updatedAt
+        string user_id FK
     }
 ```
 
----
+## 🚀 Como rodar
 
-## 🚨 Controle de Acesso (RBAC)
+Pré-requisitos: Node.js 18+ e npm.
 
-| Perfil (`role`) | Cadastrar Usuário / Autenticar | Enviar Comprovante | Criar Reembolso | Listar Todos os Reembolsos | Visualizar Reembolso Específico |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| **Público** | ✅ | ❌ | ❌ | ❌ | ❌ |
-| **Funcionário (`employee`)** | ✅ | ✅ | ✅ | ❌ | ✅ |
-| **Gestor (`manager`)** | ✅ | ❌ | ❌ | ✅ | ✅ |
+```bash
+# 1. Instalar dependências
+npm install
 
----
+# 2. Criar/atualizar o banco SQLite
+npx prisma migrate dev
 
-## 🔌 Endpoints da API
+# 3. Subir a API
+npm run dev
+```
 
-### Autenticação & Usuários (Público)
+A API sobe em `http://localhost:3333`. Não há variáveis de ambiente — o banco e as configurações de JWT ficam em `prisma/schema.prisma` e `src/configs/auth.ts`.
 
-| Método | Rota | Descrição |
-| :--- | :--- | :--- |
-| `POST` | `/users` | Cadastra um novo usuário no sistema |
-| `POST` | `/sessions` | Autentica um usuário e retorna o Token JWT |
+> ⚠️ A chave do JWT está fixa no código para fins de estudo. Em produção, mova-a para uma variável de ambiente.
 
-### Uploads (Requer Autenticação - `employee`)
+## 👤 Autor
 
-| Método | Rota | Descrição |
-| :--- | :--- | :--- |
-| `POST` | `/uploads` | Realiza o upload do arquivo de comprovante (`multipart/form-data`) |
-
-### Reembolsos (Requer Autenticação)
-
-| Método | Rota | Autorização | Descrição |
-| :--- | :--- | :--- | :--- |
-| `POST` | `/refunds` | `employee` | Registra uma nova solicitação de reembolso |
-| `GET` | `/refunds` | `manager` | Lista todas as solicitações de reembolso |
-| `GET` | `/refunds/:id` | `employee`, `manager` | Detalhes de uma solicitação específica pelo ID |
-
----
-
-## 🚀 Como Executar o Projeto
-
-### Pré-requisitos
-
-Antes de começar, garante que você possui o [Node.js](https://nodejs.org/) (v18+) e o [Git](https://git-scm.com/) instalados em sua máquina.
-
-### Passo a Passo
-
-1. **Clonar o repositório:**
-   ```bash
-   git clone https://github.com/KevinLopes23/refund_api.git
-   cd refund_api
-   ```
-
-2. **Instalar as dependências:**
-   ```bash
-   npm install
-   ```
-
-3. **Executar as Migrações do Banco de Dados (Prisma):**
-   ```bash
-   npx prisma migrate dev
-   ```
-
-4. **Iniciar o Servidor de Desenvolvimento:**
-   ```bash
-   npm run dev
-   ```
-
-5. O servidor estará rodando em `http://localhost:3333` (ou porta configurada).
-
----
-
-## 📄 Licença
-
-Este projeto está sob a licença [ISC](https://opensource.org/licenses/ISC).
-
----
-
-Feito com 💜 por [Kevin Lopes](https://github.com/KevinLopes23)
+Feito por [Kevin Lopes](https://github.com/KevinLopes23)
